@@ -3,12 +3,12 @@
 //  Firebase Console -> Project settings -> General -> Your apps -> Web app
 // =====================================================================
 export const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000"
+  apiKey: "AIzaSyB63gShl0WUEdmWEMEDQJibiZjhpEXaMS0",
+  authDomain: "lakhipur-polyclinic.firebaseapp.com",
+  projectId: "lakhipur-polyclinic",
+  storageBucket: "lakhipur-polyclinic.firebasestorage.app",
+  messagingSenderId: "1016599049231",
+  appId: "1:1016599049231:web:e0a7edb7f4a94bd96b5f7a"
 };
 
 // Usernames are turned into login emails like  username@lakhipurpolyclinic.app
