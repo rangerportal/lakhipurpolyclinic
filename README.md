@@ -16,7 +16,7 @@ A web app you can install on phones, tablets and computers. Data is stored in yo
 | Create unlimited co-partner / staff logins, disable them | ✔ | – | – |
 | Clinic settings, full backup | ✔ | – | – |
 
-**Admin login:** username `admin`, password `BabuAhmed@1122`.
+**Admin login:** username `admin`, with the password you were given (it is not stored in these files).
 The password is not stored in the code. The admin account is created in Firebase the first time you log in with it. **Log in as admin right after you deploy**, before anyone else opens the link.
 
 ---
@@ -49,7 +49,7 @@ It prints a link like `https://lakhipur-polyclinic.web.app`. That is your app.
 > Then go to **Authentication → Settings → Authorized domains** and add your host's domain.
 
 ### 5. First login
-1. Open the link and log in with `admin` / `BabuAhmed@1122`.
+1. Open the link and log in as `admin` with your admin password.
 2. **Settings:** add the clinic phone number and timings.
 3. **Doctors:** add each doctor with their degrees, fee and doctor share %.
 4. **Logins:** create the 3 co-partner and 2 staff logins (you can add more at any time). Share each username and password with that person.
