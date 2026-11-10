@@ -1,0 +1,56 @@
+rules_version = '2';
+// Lakhipur Polyclinic — Firestore security rules
+// Paste into Firebase Console -> Firestore Database -> Rules, then Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function active() { return hasProfile() && me().active == true; }
+    function isAdmin() { return active() && me().role == 'admin'; }
+    function isStaff() { return active() && me().role == 'staff'; }
+    function canEnter() { return isAdmin() || isStaff(); }
+
+    // Logins / roles
+    match /users/{uid} {
+      allow read: if (signedIn() && request.auth.uid == uid) || isAdmin();
+      // First admin login creates its own profile (only for the admin email).
+      allow create: if isAdmin()
+        || (signedIn() && request.auth.uid == uid
+            && request.auth.token.email == 'admin@lakhipurpolyclinic.app'
+            && request.resource.data.role == 'admin');
+      allow update, delete: if isAdmin();
+    }
+
+    // Clinic name / logo / address — readable before login so the login screen can show the logo.
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /doctors/{id} {
+      allow read: if active();
+      allow write: if isAdmin();
+    }
+
+    match /patients/{id} {
+      allow read: if active();
+      allow create, update: if canEnter();
+      allow delete: if isAdmin();
+    }
+
+    // Prescriptions + fee entries
+    match /visits/{id} {
+      allow read: if active();
+      allow create: if canEnter() && request.resource.data.createdBy == request.auth.uid;
+      allow update: if isAdmin();          // cancel / correct
+      allow delete: if false;              // never delete, only cancel
+    }
+
+    // Auto-number counters (patient ID, receipt no, daily token)
+    match /counters/{id} {
+      allow read, write: if canEnter();
+    }
+  }
+}
